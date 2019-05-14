@@ -1,0 +1,15 @@
+package-as: ElvUI_RaidMarkers
+
+enable-nolib-creation: no
+
+externals:
+	Libraries\LibStub:
+		url: svn://svn.wowace.com/wow/libstub/mainline/trunk
+		tag: latest
+	Libraries\CallbackHandler-1.0:
+		url: svn://svn.wowace.com/wow/callbackhandler/mainline/trunk/CallbackHandler-1.0
+		tag: latest
+	Libraries\AceLocale-3.0:
+		url: svn://svn.wowace.com/wow/ace3/mainline/trunk/AceLocale-3.0
+
+license-output: LICENSE.TXT
