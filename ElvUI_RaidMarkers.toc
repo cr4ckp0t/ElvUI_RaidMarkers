@@ -1,7 +1,7 @@
 ## Interface: 80100
 ## Author: Lockslap
 ## Title: |cff1784d1ElvUI|r Raid Markers
-## Version: 5.0.1
+## Version: 5.0.2
 ## Notes: Adds a small raid marker bar below the minimap.
 ## RequiredDeps: ElvUI
 
