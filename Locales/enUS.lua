@@ -20,6 +20,7 @@ L["Click to mark the target."] = true
 L["Click to mark the target.\n%sClick to place a flare."] = true
 L["Control"] = true
 L["ElvUI Raid Markers"] = true
+L["Group"] = true
 L["Hide"] = true
 L["Horizontal"] = true
 L["Orientation"] = true

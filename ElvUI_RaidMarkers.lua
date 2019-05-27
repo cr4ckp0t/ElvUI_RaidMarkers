@@ -5,7 +5,7 @@
 local _G = getfenv()
 local floor = math.floor
 
-local E, L, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB, Localize Underscore
+local E, _, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB, Localize Underscore
 local RM = E:NewModule("RaidMarkersBar")
 local L = LibStub("AceLocale-3.0"):GetLocale("ElvUI_RaidMarkers", false)
 local EP = LibStub("LibElvUIPlugin-1.0")
@@ -115,7 +115,7 @@ function RM:UpdateBar(first)
 			self.frame:Show()
 		end
 	else
-		RegisterStateDriver(self.frame, "visibility", "[petbattle] hide; [noexists,nogroup] hide; show")
+		RegisterStateDriver(self.frame, "visibility", self.db.visible == "auto" and "[noexists, nogroup] hide; show" or "[group] show; hide")
 	end
 end
 
@@ -129,13 +129,6 @@ function RM:ButtonFactory()
 		local image = button:CreateTexture(nil, "BACKGROUND")
 		image:SetAllPoints()
 		image:SetTexture(i == 9 and "Interface\\BUTTONS\\UI-GroupLoot-Pass-Up" or ("Interface\\TargetingFrame\\UI-RaidTargetingIcon_%d"):format(i))
-	
-		--[[ button highlight on mouseover
-		local highlight = button:CreateTexture(nil, "HIGHLIGHT")
-		highlight:SetAllPoints(image)
-		highlight:SetTexture("Interface\\PaperDollInfoFrame\\UI-Character-Tab-Highlight")
-		highlight:SetTexCoord(0, 1, 0.23, 0.77)
-		highlight:SetBlendMode("ADD")]]
 		
 		local target, flare = buttonData.RT, buttonData.WM
 		-- target icons
@@ -155,14 +148,7 @@ function RM:ButtonFactory()
 		end
 		
 		-- world markers (flares)
-		if flare then
-			--[[ emphasis for the flares
-			local overlay = button:CreateTexture(nil, "OVERLAY")
-			overlay:SetAllPoints(highlight)
-			overlay:SetTexture("Interface\\BUTTONS\\CheckButtonHilight")
-			overlay:SetAlpha(0.35)
-			overlay:SetBlendMode("ADD")]]
-			
+		if flare then			
 			-- add flares to the macro texts
 			local modifier = RM.db.modifier or MODIFIER_DEFAULT
 			button:SetAttribute(("%stype1"):format(modifier), "macro")
@@ -225,11 +211,8 @@ end
 E:RegisterModule(RM:GetName())
 
 P["actionbar"]["raidmarkersbar"] = {
-	["visible"] = "auto",
-	--["show"] = true,
+	["visible"] = "group",
 	["modifier"] = "shift-",
-	--["auto"] = true,
-	--["battles"] = true,
 	["orient"] = "horizontal",
 	["scale"] = 1.0,
 }
@@ -269,6 +252,7 @@ local function InjectOptions()
 					["hide"] = L["Hide"],
 					["show"] = L["Show"],
 					["auto"] = L["Auto"],
+					["group"] = L["Group"],
 				},
 				get = function() return RM.db.visible end,
 				set = function(_, value) RM.db.visible = value; RM:UpdateBar(); end,
@@ -296,7 +280,7 @@ local function InjectOptions()
 					["vertical"] = L["Vertical"],
 				},
 				get = function() return RM.db.orient end,
-				set = function(_, value) RM.db.orient = value; RM:UpdateBar(); end,
+				set = function(_, value) RM.db.orient = value; RM:UpdateBar(); RM:UpdateMover(); end,
 			},
 			scale = {
 				type = "range",
@@ -304,7 +288,7 @@ local function InjectOptions()
 				name = L["Scale"],
 				desc = L["Set the frame scale."],
 				get = function() return RM.db.scale end,
-				set = function(_, value) RM.db.scale = value; RM:UpdateBar(); --[[RM:UpdateMover();]] end,
+				set = function(_, value) RM.db.scale = value; RM:UpdateBar(); RM:UpdateMover(); end,
 				min = 0.5, max = 5.0, step = 0.1,
 			},
 		},
