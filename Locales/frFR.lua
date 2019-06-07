@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- ElvUI Raid Markers Bar By Lockslap (US, Bleeding Hollow)
+-- ElvUI Raid Markers Bar By Crackpotx (US, Lightbringer)
 -------------------------------------------------------------------------------
 local AceLocale = LibStub:GetLibrary("AceLocale-3.0")
 local L = AceLocale:NewLocale("ElvUI_RaidMarkers", "frFR", false)

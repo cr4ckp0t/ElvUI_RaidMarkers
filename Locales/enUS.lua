@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- ElvUI_RaidMarkers By Lockslap (US, Bleeding Hollow)
+-- ElvUI_RaidMarkers By Crackpotx (US, Lightbringer)
 -------------------------------------------------------------------------------
 local debug = false
 --@debug@
@@ -24,7 +24,7 @@ L["Group"] = true
 L["Hide"] = true
 L["Horizontal"] = true
 L["Orientation"] = true
-L["Plugins by |cff9382c9Lockslap|r"] = true
+L["Plugins by |cff9382c9Crackpotx|r"] = true
 L["Raid Markers Bar"] = true
 L["Raid Markers"] = true
 L["Scale"] = true
@@ -32,6 +32,6 @@ L["Select how the raid markers bar will be displayed."] = true
 L["Set the frame scale."] = true
 L["Shift"] = true
 L["Show"] = true
-L["Thanks for using and supporting my work!  -- |cff9382c9Lockslap|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."] = true
+L["Thanks for using and supporting my work!  -- |cff9382c9Crackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."] = true
 L["Vertical"] = true
 L["World Markers Modifier"] = true

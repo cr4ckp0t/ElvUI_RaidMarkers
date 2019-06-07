@@ -1,14 +1,29 @@
 -------------------------------------------------------------------------------
--- ElvUI Raid Markers Bar By Lockslap
+-- ElvUI Raid Markers Bar By Crackpotx
 -- Contains modifications graciously provided by Dridzt!
 -------------------------------------------------------------------------------
 local _G = getfenv()
 local floor = math.floor
-
 local E, _, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB, Localize Underscore
 local RM = E:NewModule("RaidMarkersBar")
 local L = LibStub("AceLocale-3.0"):GetLocale("ElvUI_RaidMarkers", false)
 local EP = LibStub("LibElvUIPlugin-1.0")
+
+local unpack = _G["unpack"]
+local InCombatLockdown = _G["InCombatLockdown"]
+local UnitAffectingCombat = _G["UnitAffectingCombat"]
+local UnregisterStateDriver = _G["UnregisterStateDriver"]
+local RegisterStateDriver = _G["RegisterStateDriver"]
+local CreateFrame = _G["CreateFrame"]
+local SetRaidTargetIcon = _G["SetRaidTargetIcon"]
+
+local CreateFrame = _G["CreateFrame"]
+local InCombatLockdown = _G["InCombatLockdown"]
+local RegisterStateDriver = _G["RegisterStateDriver"]
+local SetRaidTargetIcon = _G["SetRaidTargetIcon"]
+local UnitAffectingCombat = _G["UnitAffectingCombat"]
+local UnregisterStateDriver = _G["UnregisterStateDriver"]
+local unpack = _G["unpack"]
 
 local db
 
@@ -218,28 +233,28 @@ P["actionbar"]["raidmarkersbar"] = {
 }
 
 local function InjectOptions()
-	if not E.Options.args.lockslap then
-		E.Options.args.lockslap = {
+	if not E.Options.args.Crackpotx then
+		E.Options.args.Crackpotx = {
 			type = "group",
 			order = -2,
-			name = L["Plugins by |cff9382c9Lockslap|r"],
+			name = L["Plugins by |cff9382c9Crackpotx|r"],
 			args = {
 				thanks = {
 					type = "description",
 					order = 1,
-					name = L["Thanks for using and supporting my work!  -- |cff9382c9Lockslap|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
+					name = L["Thanks for using and supporting my work!  -- |cff9382c9Crackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
 				},
 			},
 		}
-	elseif not E.Options.args.lockslap.args.thanks then
-		E.Options.args.lockslap.args.thanks = {
+	elseif not E.Options.args.Crackpotx.args.thanks then
+		E.Options.args.Crackpotx.args.thanks = {
 			type = "description",
 			order = 1,
-			name = L["Thanks for using and supporting my work!  -- |cff9382c9Lockslap|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
+			name = L["Thanks for using and supporting my work!  -- |cff9382c9Crackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
 		}
 	end
 
-	E.Options.args.lockslap.args.raidmarkersbar = {
+	E.Options.args.Crackpotx.args.raidmarkersbar = {
 		type = "group",
 		name = L["Raid Markers"],
 		args = {
