@@ -1,7 +1,7 @@
-## Interface: 80200
+## Interface: 80205
 ## Author: Crackpotx
 ## Title: |cff1784d1ElvUI|r Raid Markers
-## Version: 5.1.2
+## Version: 5.1.3
 ## Notes: Adds a small raid marker bar below the minimap.
 ## RequiredDeps: ElvUI
 
