@@ -1,7 +1,7 @@
 ## Interface: 80300
 ## Author: Crackpotx
 ## Title: |cff1784d1ElvUI|r Raid Markers
-## Version: 5.1.4
+## Version: 5.2.0
 ## Notes: Adds a small raid marker bar below the minimap.
 ## RequiredDeps: ElvUI
 
@@ -22,3 +22,4 @@ Locales\zhCN.lua
 Locales\zhTW.lua
 
 ElvUI_RaidMarkers.lua
+Datatext.lua
