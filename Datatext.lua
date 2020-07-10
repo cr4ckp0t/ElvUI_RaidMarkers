@@ -127,4 +127,5 @@ LocationFrame:SetScript("OnEvent", function(self, event, ...)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end)
 
-DT:RegisterDatatext(L["Raid Markers"], {"PLAYER_ENTERING_WORLD"}, OnEvent, nil, OnClick, OnEnter)
+DT:RegisterDatatext("Raid Markers", nil, {"PLAYER_ENTERING_WORLD"}, OnEvent, nil, OnClick, OnEnter, nil, L["Raid Markers"])
+--DT:RegisterDatatext(L["Raid Markers"], {"PLAYER_ENTERING_WORLD"}, OnEvent, nil, OnClick, OnEnter)
