@@ -137,7 +137,7 @@ end
 function RM:ButtonFactory()
 	-- create the buttons
 	for i, buttonData in ipairs(buttonMap) do
-		local button = CreateFrame("Button", ("ElvUI_RaidMarkersBarButton%d"):format(i), _G["ElvUI_RaidMarkersBar"], "SecureActionButtonTemplate")
+		local button = CreateFrame("Button", ("ElvUI_RaidMarkersBarButton%d"):format(i), _G["ElvUI_RaidMarkersBar"], "SecureActionButtonTemplate, BackdropTemplate")
 		button:SetHeight(BUTTON_HEIGHT)
 		button:SetWidth(BUTTON_WIDTH)
 		
@@ -208,7 +208,7 @@ end
 function RM:Initialize()
 	self.db = E.db.actionbar.raidmarkersbar
 	
-	self.frame = CreateFrame("Frame", "ElvUI_RaidMarkersBar", E.UIParent, "SecureHandlerStateTemplate")
+	self.frame = CreateFrame("Frame", "ElvUI_RaidMarkersBar", E.UIParent, "SecureHandlerStateTemplate, BackdropTemplate")
 	self.frame:SetResizable(false)
 	self.frame:SetClampedToScreen(true)
 	self.frame:SetTemplate("Default", true)
