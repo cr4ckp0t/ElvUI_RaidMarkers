@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- ElvUI Raid Markers Bar By Crackpot (US, Thrall)
+-- ElvUI Raid Markers Bar By Crackpot (US, Arthas)
 -------------------------------------------------------------------------------
 local AceLocale = LibStub:GetLibrary("AceLocale-3.0")
 local L = AceLocale:NewLocale("ElvUI_RaidMarkers", "frFR", false)

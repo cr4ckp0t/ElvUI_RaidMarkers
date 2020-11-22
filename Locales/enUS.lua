@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- ElvUI_RaidMarkers By Crackpot (US, Thrall)
+-- ElvUI_RaidMarkers By Crackpot (US, Arthas)
 -------------------------------------------------------------------------------
 local debug = false
 --@debug@
