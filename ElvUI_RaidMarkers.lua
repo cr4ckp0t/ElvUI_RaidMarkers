@@ -168,7 +168,7 @@ function RM:ButtonFactory()
 			local modifier = RM.db.modifier or MODIFIER_DEFAULT
 			button:SetAttribute(("%stype1"):format(modifier), "macro")
 			button.modifier = modifier
-			button:SetAttribute(("%smacrotext1"):format(modifier), flare == 0 and "/cwm all" or ("/cwm, %d\n/wm %d"):format(flare, flare))
+			button:SetAttribute(("%smacrotext1"):format(modifier), flare == 0 and "/cwm 0" or ("/cwm, %d\n/wm %d"):format(flare, flare))
 		
 			-- more tooltip
 			button:SetScript("OnEnter", function(self)				
