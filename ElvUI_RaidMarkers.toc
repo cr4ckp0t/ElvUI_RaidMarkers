@@ -1,10 +1,9 @@
-## Interface: 90005
+## Interface: 20501
 ## Author: Crackpotx
-## Title: |cff1784d1ElvUI|r Raid Markers
-## Version: 6.0.4
+## Title: |cff1784d1ElvUI|r Raid Markers - BCC
+## Version: 1.0.0-bcc
 ## Notes: Adds a small raid marker bar below the minimap.
 ## RequiredDeps: ElvUI
-## SavedVariables: TradeAdvertiseDB
 
 Libraries\LibStub\LibStub.lua
 Libraries\CallbackHandler-1.0\CallbackHandler-1.0.xml
