@@ -1,7 +1,7 @@
-## Interface: 90105
+## Interface: 90200
 ## Author: Crackpot
 ## Title: |cff1784d1ElvUI|r Raid Markers
-## Version: 6.0.7
+## Version: 6.0.8
 ## Notes: Adds a small raid marker bar below the minimap.
 ## RequiredDeps: ElvUI
 ## SavedVariables: TradeAdvertiseDB

@@ -141,22 +141,13 @@ end
 function RM:ButtonFactory()
 	-- create the buttons
 	for i, buttonData in ipairs(buttonMap) do
-		local button =
-			CreateFrame(
-			"Button",
-			("ElvUI_RaidMarkersBarButton%d"):format(i),
-			_G["ElvUI_RaidMarkersBar"],
-			"SecureActionButtonTemplate, BackdropTemplate"
-		)
+		local button = CreateFrame( "Button", ("ElvUI_RaidMarkersBarButton%d"):format(i), _G["ElvUI_RaidMarkersBar"], "SecureActionButtonTemplate, BackdropTemplate")
 		button:SetHeight(BUTTON_HEIGHT)
 		button:SetWidth(BUTTON_WIDTH)
 
 		local image = button:CreateTexture(nil, "BACKGROUND")
 		image:SetAllPoints()
-		image:SetTexture(
-			i == 9 and "Interface\\BUTTONS\\UI-GroupLoot-Pass-Up" or
-				("Interface\\TargetingFrame\\UI-RaidTargetingIcon_%d"):format(i)
-		)
+		image:SetTexture(i == 9 and "Interface\\BUTTONS\\UI-GroupLoot-Pass-Up" or ("Interface\\TargetingFrame\\UI-RaidTargetingIcon_%d"):format(i))
 
 		local target, flare = buttonData.RT, buttonData.WM
 		-- target icons
@@ -165,22 +156,14 @@ function RM:ButtonFactory()
 			button:SetAttribute("macrotext1", ('/run SetRaidTargetIcon("target", %d)'):format(i < 9 and i or 0))
 
 			-- for the tooltip
-			button:SetScript(
-				"OnEnter",
-				function(self)
-					self:SetBackdropBorderColor(.7, .7, 0)
-					GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-					GameTooltip:SetText(L["ElvUI Raid Markers"])
-					GameTooltip:AddLine(i == 9 and L["Click to clear the mark."] or L["Click to mark the target."], 1, 1, 1)
-					GameTooltip:Show()
-				end
-			)
-			button:SetScript(
-				"OnLeave",
-				function()
-					GameTooltip:Hide()
-				end
-			)
+			button:SetScript("OnEnter", function(self)
+				self:SetBackdropBorderColor(.7, .7, 0)
+				GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+				GameTooltip:SetText(L["ElvUI Raid Markers"])
+				GameTooltip:AddLine(i == 9 and L["Click to clear the mark."] or L["Click to mark the target."], 1, 1, 1)
+				GameTooltip:Show()
+			end)
+			button:SetScript("OnLeave", function() GameTooltip:Hide() end)
 		end
 
 		-- world markers (flares)
@@ -189,34 +172,18 @@ function RM:ButtonFactory()
 			local modifier = RM.db.modifier or MODIFIER_DEFAULT
 			button:SetAttribute(("%stype1"):format(modifier), "macro")
 			button.modifier = modifier
-			button:SetAttribute(
-				("%smacrotext1"):format(modifier),
-				flare == 0 and "/cwm 0" or ("/cwm, %d\n/wm %d"):format(flare, flare)
-			)
+			button:SetAttribute(("%smacrotext1"):format(modifier), flare == 0 and "/cwm 0" or ("/cwm %d\n/wm %d"):format(flare, flare))
 
 			-- more tooltip
-			button:SetScript(
-				"OnEnter",
-				function(self)
-					self:SetBackdropBorderColor(.7, .7, 0)
-					GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-					GameTooltip:SetText(L["ElvUI Raid Markers"])
-					GameTooltip:AddLine(
-						i == 9 and (L["Click to clear the mark.\n%sClick to remove all flares."]):format(Capitalize(button.modifier)) or
-							(L["Click to mark the target.\n%sClick to place a flare."]):format(Capitalize(button.modifier)),
-						1,
-						1,
-						1
-					)
-					GameTooltip:Show()
-				end
-			)
-			button:SetScript(
-				"OnLeave",
-				function()
-					GameTooltip:Hide()
-				end
-			)
+			button:SetScript("OnEnter", function(self)
+				self:SetBackdropBorderColor(.7, .7, 0)
+				GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+				GameTooltip:SetText(L["ElvUI Raid Markers"])
+				GameTooltip:AddLine(i == 9 and (L["Click to clear the mark.\n%sClick to remove all flares."]):format(Capitalize(button.modifier)) or (L["Click to mark the target.\n%sClick to place a flare."]):format(Capitalize(button.modifier)), 1, 1, 1)
+				GameTooltip:Show()
+			end)
+
+			button:SetScript("OnLeave", function() GameTooltip:Hide() end)
 		end
 
 		button:RegisterForClicks("AnyDown")
