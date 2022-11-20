@@ -186,7 +186,7 @@ function RM:ButtonFactory()
 			button:SetScript("OnLeave", function() GameTooltip:Hide() end)
 		end
 
-		button:RegisterForClicks("AnyDown")
+		button:RegisterForClicks("AnyDown", "AnyUp")
 		self.frame.buttons[i] = button
 	end
 end
