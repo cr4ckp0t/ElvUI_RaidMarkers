@@ -103,15 +103,11 @@ local function OnClick(self, button)
 	end
 end
 
-local function ValueColorUpdate(hex, r, g, b)
+local function ValueColorUpdate(self, hex, r, g, b)
 	displayString = join("", hex, "%s|r")
 	hexColor = hex
-	
-	if lastPanel ~= nil then
-		OnEvent(lastPanel, "ELVUI_COLOR_UPDATE")
-	end
+	OnEvent(self)
 end
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
 TargetFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 TargetFrame:SetScript("OnEvent", function(self, event, ...)
@@ -127,5 +123,4 @@ LocationFrame:SetScript("OnEvent", function(self, event, ...)
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end)
 
-DT:RegisterDatatext("Raid Markers", nil, {"PLAYER_ENTERING_WORLD"}, OnEvent, nil, OnClick, OnEnter, nil, L["Raid Markers"])
---DT:RegisterDatatext(L["Raid Markers"], {"PLAYER_ENTERING_WORLD"}, OnEvent, nil, OnClick, OnEnter)
+DT:RegisterDatatext("Raid Markers", nil, {"PLAYER_ENTERING_WORLD"}, OnEvent, nil, OnClick, OnEnter, nil, L["Raid Markers"], nil, ValueColorUpdate)
