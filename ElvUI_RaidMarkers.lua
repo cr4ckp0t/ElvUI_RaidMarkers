@@ -6,8 +6,8 @@ local _G = getfenv()
 local floor = math.floor
 local E, _, V, P, G = unpack(ElvUI) --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB, Localize Underscore
 local RM = E:NewModule("RaidMarkersBar")
-local L = LibStub("AceLocale-3.0"):GetLocale("ElvUI_RaidMarkers", false)
-local EP = LibStub("LibElvUIPlugin-1.0")
+local L = E.Libs.ACL:GetLocale("ElvUI_RaidMarkers", false)
+local EP = E.Libs.EP
 
 local unpack = _G["unpack"]
 local InCombatLockdown = _G["InCombatLockdown"]
@@ -60,8 +60,7 @@ local function InCombat()
 end
 
 local function InConfig()
-	local ACD = LibStub("AceConfigDialog-3.0")
-	return ACD.OpenFrames.ElvUI and true or false
+	return E.Libs.AceConfigDialog.OpenFrames.ElvUI and true or false
 end
 
 function RM:ToggleBar()

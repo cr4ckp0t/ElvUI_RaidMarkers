@@ -3,7 +3,7 @@
 -- Contains modifications graciously provided by Dridzt!
 -------------------------------------------------------------------------------
 local E, _, V, P, G, _ = unpack(ElvUI)
-local L = LibStub("AceLocale-3.0"):GetLocale("ElvUI_RaidMarkers", false)
+local L = E.Libs.ACL:GetLocale("ElvUI_RaidMarkers", false)
 local DT = E:GetModule("DataTexts")
 local TargetFrame = CreateFrame("Frame", "ElvUI_RaidMarkersDatatextTargetFrame", E.UIParent, "UIDropDownMenuTemplate")
 local LocationFrame = CreateFrame("Frame", "ElvUI_RaidMarkersDatatextLocationFrame", E.UIParent, "UIDropDownMenuTemplate")
