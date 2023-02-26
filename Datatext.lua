@@ -9,16 +9,16 @@ local TargetFrame = CreateFrame("Frame", "ElvUI_RaidMarkersDatatextTargetFrame",
 local LocationFrame = CreateFrame("Frame", "ElvUI_RaidMarkersDatatextLocationFrame", E.UIParent, "UIDropDownMenuTemplate")
 
 -- local api cache
-local IsShiftKeyDown = _G["IsShiftKeyDown"]
-local PlaceRaidMarker = _G["PlaceRaidMarker"]
-local SetRaidTarget = _G["SetRaidTarget"]
-local UIDropDownMenu_AddButton = _G["UIDropDownMenu_AddButton"]
-local UnitExists = _G["UnitExists"]
+local IsShiftKeyDown = IsShiftKeyDown
+local PlaceRaidMarker = PlaceRaidMarker
+local SetRaidTarget = SetRaidTarget
+local UIDropDownMenu_AddButton = UIDropDownMenu_AddButton
+local UnitExists = UnitExists
 
-local join = string.join
-local wipe = table.wipe
+local strjoin = strjoin
 
 local displayString = ""
+local hexColor
 
 local markerMap = {
 	[1] = {Name = L["Star"], RT = 1, WM = 5},	-- yellow/star
@@ -32,11 +32,11 @@ local markerMap = {
 	[9] = {Name = L["Remove Marker"], RT = 0, WM = 0},	-- clear target/flare
 }
 
-local function TargetClick(button, id)
+local function TargetClick()
 	SetRaidTarget(UnitExists("target") and "target" or "player")
 end
 
-local function CreateTargetMenu(self, level)
+local function CreateTargetMenu()
 	for i = 9, 1, -1 do
 		UIDropDownMenu_AddButton({
 			text = markerMap[i].Name,
@@ -49,11 +49,11 @@ local function CreateTargetMenu(self, level)
 	end
 end
 
-local function LocationClick(button, id)
+local function LocationClick(_, id)
 	PlaceRaidMarker(id)
 end
 
-local function CreateLocationMenu(self, level)
+local function CreateLocationMenu()
 	for i = 9, 1, -1 do
 		UIDropDownMenu_AddButton({
 			text = markerMap[i].Name,
@@ -103,21 +103,21 @@ local function OnClick(self, button)
 	end
 end
 
-local function ValueColorUpdate(self, hex, r, g, b)
-	displayString = join("", hex, "%s|r")
+local function ValueColorUpdate(self, hex)
+	displayString = strjoin('', hex, '%s|r')
 	hexColor = hex
 	OnEvent(self)
 end
 
 TargetFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-TargetFrame:SetScript("OnEvent", function(self, event, ...)
+TargetFrame:SetScript("OnEvent", function(self)
 	self.initialize = CreateTargetMenu
 	self.displayMode = "MENU"
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end)
 
 LocationFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-LocationFrame:SetScript("OnEvent", function(self, event, ...)
+LocationFrame:SetScript("OnEvent", function(self)
 	self.initialize = CreateLocationMenu
 	self.displayMode = "MENU"
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")

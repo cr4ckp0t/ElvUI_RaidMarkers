@@ -2,41 +2,24 @@
 -- ElvUI Raid Markers Bar By Crackpotx
 -- Contains modifications graciously provided by Dridzt!
 -------------------------------------------------------------------------------
-local _G = getfenv()
-local floor = math.floor
 local E, _, V, P, G = unpack(ElvUI) --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB, Localize Underscore
 local RM = E:NewModule("RaidMarkersBar")
 local L = E.Libs.ACL:GetLocale("ElvUI_RaidMarkers", false)
 local EP = E.Libs.EP
+local ACH = E.Libs.ACH
 
-local unpack = _G["unpack"]
-local InCombatLockdown = _G["InCombatLockdown"]
-local UnitAffectingCombat = _G["UnitAffectingCombat"]
-local UnregisterStateDriver = _G["UnregisterStateDriver"]
-local RegisterStateDriver = _G["RegisterStateDriver"]
-local CreateFrame = _G["CreateFrame"]
-local SetRaidTargetIcon = _G["SetRaidTargetIcon"]
-
-local CreateFrame = _G["CreateFrame"]
-local InCombatLockdown = _G["InCombatLockdown"]
-local RegisterStateDriver = _G["RegisterStateDriver"]
-local SetRaidTargetIcon = _G["SetRaidTargetIcon"]
-local UnitAffectingCombat = _G["UnitAffectingCombat"]
-local UnregisterStateDriver = _G["UnregisterStateDriver"]
-local unpack = _G["unpack"]
-
-local db
+local CreateFrame = _G.CreateFrame
+local GameTooltip = _G.GameTooltip
+local RegisterStateDriver = _G.RegisterStateDriver
+local SetRaidTargetIcon = _G.SetRaidTargetIcon
+local UnitAffectingCombat = _G.UnitAffectingCombat
+local UnregisterStateDriver = _G.UnregisterStateDriver
+local unpack = _G.unpack
 
 local BUTTON_HEIGHT = 18
 local BUTTON_WIDTH = 18
 local BUTTON_DISTANCE = 5
-local FRAME_HEIGHT = 22
-local FRAME_WIDTH = 150
-
-local COMBAT_QUEUE = {}
 local MODIFIER_DEFAULT = "shift-"
-
-local inCombat
 
 -- thanks to Mahdiin for the new world marker ids
 local buttonMap = {
@@ -55,14 +38,6 @@ local function Capitalize(str)
 	return str:gsub("^%l", string.upper)
 end
 
-local function InCombat()
-	return inCombat or InCombatLockdown() or UnitAffectingCombat("player") or UnitAffectingCombat("pet")
-end
-
-local function InConfig()
-	return E.Libs.AceConfigDialog.OpenFrames.ElvUI and true or false
-end
-
 function RM:ToggleBar()
 	if self.db.show then
 		self.frame:Show()
@@ -77,7 +52,7 @@ function RM:UpdateMover()
 end
 
 function RM:UpdateBar(first)
-	local height, width = FRAME_HEIGHT, FRAME_WIDTH
+	local height, width
 
 	-- adjust height/width for orientation
 	if self.db.orient == "vertical" then
@@ -129,18 +104,14 @@ function RM:UpdateBar(first)
 			self.frame:Show()
 		end
 	else
-		RegisterStateDriver(
-			self.frame,
-			"visibility",
-			self.db.visible == "auto" and "[noexists, nogroup] hide; show" or "[group] show; hide"
-		)
+		RegisterStateDriver(self.frame, "visibility", self.db.visible == "auto" and "[noexists, nogroup] hide; show" or "[group] show; hide")
 	end
 end
 
 function RM:ButtonFactory()
 	-- create the buttons
 	for i, buttonData in ipairs(buttonMap) do
-		local button = CreateFrame( "Button", ("ElvUI_RaidMarkersBarButton%d"):format(i), _G["ElvUI_RaidMarkersBar"], "SecureActionButtonTemplate, BackdropTemplate")
+		local button = CreateFrame("Button", ("ElvUI_RaidMarkersBarButton%d"):format(i), _G["ElvUI_RaidMarkersBar"], "SecureActionButtonTemplate, BackdropTemplate")
 		button:SetHeight(BUTTON_HEIGHT)
 		button:SetWidth(BUTTON_WIDTH)
 
@@ -155,9 +126,9 @@ function RM:ButtonFactory()
 			button:SetAttribute("macrotext1", ('/run SetRaidTargetIcon("target", %d)'):format(i < 9 and i or 0))
 
 			-- for the tooltip
-			button:SetScript("OnEnter", function(self)
-				self:SetBackdropBorderColor(.7, .7, 0)
-				GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+			button:SetScript("OnEnter", function(slf)
+				slf:SetBackdropBorderColor(.7, .7, 0)
+				GameTooltip:SetOwner(slf, "ANCHOR_BOTTOM")
 				GameTooltip:SetText(L["ElvUI Raid Markers"])
 				GameTooltip:AddLine(i == 9 and L["Click to clear the mark."] or L["Click to mark the target."], 1, 1, 1)
 				GameTooltip:Show()
@@ -174,9 +145,9 @@ function RM:ButtonFactory()
 			button:SetAttribute(("%smacrotext1"):format(modifier), flare == 0 and "/cwm 0" or ("/cwm %d\n/wm %d"):format(flare, flare))
 
 			-- more tooltip
-			button:SetScript("OnEnter", function(self)
-				self:SetBackdropBorderColor(.7, .7, 0)
-				GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+			button:SetScript("OnEnter", function(slf)
+				slf:SetBackdropBorderColor(.7, .7, 0)
+				GameTooltip:SetOwner(slf, "ANCHOR_BOTTOM")
 				GameTooltip:SetText(L["ElvUI Raid Markers"])
 				GameTooltip:AddLine(i == 9 and (L["Click to clear the mark.\n%sClick to remove all flares."]):format(Capitalize(button.modifier)) or (L["Click to mark the target.\n%sClick to place a flare."]):format(Capitalize(button.modifier)), 1, 1, 1)
 				GameTooltip:Show()
@@ -194,8 +165,7 @@ function RM:InitBar()
 	self.frame:ClearAllPoints()
 	self.frame:SetPoint("CENTER")
 
-	local height, width = FRAME_HEIGHT, FRAME_WIDTH
-
+	local height, width
 	-- adjust height/width for orientation
 	if self.db.orient == "vertical" then
 		width = BUTTON_WIDTH + 3
@@ -238,108 +208,17 @@ P["actionbar"]["raidmarkersbar"] = {
 
 local function InjectOptions()
 	if not E.Options.args.Crackpotx then
-		E.Options.args.Crackpotx = {
-			type = "group",
-			order = -2,
-			name = L["Plugins by |cff0070deCrackpotx|r"],
-			args = {
-				thanks = {
-					type = "description",
-					order = 1,
-					name = L[
-						"Thanks for using and supporting my work!  -- |cff0070deCrackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."
-					]
-				}
-			}
-		}
-	elseif not E.Options.args.Crackpotx.args.thanks then
-		E.Options.args.Crackpotx.args.thanks = {
-			type = "description",
-			order = 1,
-			name = L[
-				"Thanks for using and supporting my work!  -- |cff0070deCrackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."
-			]
-		}
+		E.Options.args.Crackpotx = ACH:Group(L["Plugins by |cff0070deCrackpotx|r"])
+	end
+	if not E.Options.args.Crackpotx.args.thanks then
+		E.Options.args.Crackpotx.args.thanks = ACH:Description(L["Thanks for using and supporting my work!  -- |cff0070deCrackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."], 1)
 	end
 
-	E.Options.args.Crackpotx.args.raidmarkersbar = {
-		type = "group",
-		name = L["Raid Markers"],
-		args = {
-			visible = {
-				type = "select",
-				order = 1,
-				name = L["Bar Visibility"],
-				desc = L["Select how the raid markers bar will be displayed."],
-				values = {
-					["hide"] = L["Hide"],
-					["show"] = L["Show"],
-					["auto"] = L["Auto"],
-					["group"] = L["Group"]
-				},
-				get = function()
-					return RM.db.visible
-				end,
-				set = function(_, value)
-					RM.db.visible = value
-					RM:UpdateBar()
-				end
-			},
-			modifier = {
-				type = "select",
-				order = 2,
-				name = L["World Markers Modifier"],
-				desc = L["Choose the button modifier to use the world markers (flares)."],
-				values = {
-					["alt-"] = L["Alt"],
-					["ctrl-"] = L["Control"],
-					["shift-"] = L["Shift"]
-				},
-				get = function()
-					return RM.db.modifier
-				end,
-				set = function(_, value)
-					RM.db.modifier = value
-					RM:UpdateBar()
-				end
-			},
-			orient = {
-				type = "select",
-				order = 3,
-				name = L["Orientation"],
-				desc = L["Choose the orientation of the raid markers bar."],
-				values = {
-					["horizontal"] = L["Horizontal"],
-					["vertical"] = L["Vertical"]
-				},
-				get = function()
-					return RM.db.orient
-				end,
-				set = function(_, value)
-					RM.db.orient = value
-					RM:UpdateBar()
-					RM:UpdateMover()
-				end
-			},
-			scale = {
-				type = "range",
-				order = 4,
-				name = L["Scale"],
-				desc = L["Set the frame scale."],
-				get = function()
-					return RM.db.scale
-				end,
-				set = function(_, value)
-					RM.db.scale = value
-					RM:UpdateBar()
-					RM:UpdateMover()
-				end,
-				min = 0.5,
-				max = 5.0,
-				step = 0.1
-			}
-		}
-	}
+	E.Options.args.Crackpotx.args.raidmarkersbar = ACH:Group(L["Raid Markers"], nil, nil, nil, function(info) return RM.db[info[#info]] end, function(info, value) RM.db[info[#info]] = value; RM:UpdateBar(); RM:UpdateMover(); end)
+	E.Options.args.Crackpotx.args.raidmarkersbar.args.visible = ACH:Select(L["Bar Visibility"], L["Select how the raid markers bar will be displayed."], 1, { ["hide"] = L["Hide"], ["show"] = L["Show"], ["auto"] = L["Auto"], ["group"] = L["Group"] })
+	E.Options.args.Crackpotx.args.raidmarkersbar.args.modifier = ACH:Select(L["World Markers Modifier"], L["Choose the button modifier to use the world markers (flares)."], 2, { ["alt-"] = L["Alt"], ["ctrl-"] = L["Control"], ["shift-"] = L["Shift"] })
+	E.Options.args.Crackpotx.args.raidmarkersbar.args.orient = ACH:Select(L["Orientation"], L["Choose the orientation of the raid markers bar."], 3, { ["horizontal"] = L["Horizontal"], ["vertical"] = L["Vertical"] })
+	E.Options.args.Crackpotx.args.raidmarkersbar.args.scale = ACH:Range(L["Scale"], L["Set the frame scale."], 4, { min = 0.5, max = 5.0, step = 0.1 })
 end
 
 EP:RegisterPlugin(..., InjectOptions)
