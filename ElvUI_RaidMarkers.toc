@@ -1,7 +1,7 @@
-## Interface: 110002
+## Interface: 110005
 ## Author: Crackpot
 ## Title: |cff1784d1ElvUI|r Raid Markers
-## Version: 6.2.9
+## Version: 6.2.10
 ## Notes: Adds a small raid marker bar below the minimap.
 ## RequiredDeps: ElvUI
 ## IconTexture: Interface\AddOns\ElvUI_RaidMarkers\Media\crackpot
@@ -20,6 +20,7 @@ Locales\zhTW.lua
 
 ElvUI_RaidMarkers.lua
 Datatext.lua
+
 
 
 
